@@ -8,17 +8,21 @@ class Banco():
     def __init__(self, titular, saldo):
         self.titular = titular
         self.saldo = saldo
+    #DEPOSITO
     def depositar(self, valor):
         self.saldo += valor
         print(f"Valor depositado.\nSaldo atual: {self.saldo} R$")
+    #SAQUE
     def sacar(self,valor):
         if valor > self.saldo:
             print("*SALDO INSUFICIENTE*")
         else:
             print("Insira valor para saque.")
             self.saldo -= valor
+    #MOSTRAR CALOR
     def mostrar_saldo(self):
         print(f"Saldo Atual: {self.saldo} R$")
+    #SALVAR INFORMAÇÃO EM JSON
     def salvar(self):
         dados = {
             "titular": self.titular,
@@ -50,7 +54,7 @@ conta = carregar_conta()
 while True:
     try:
         limpar()
-        if conta is None:
+        if conta is None: #CASO USUARIO NAO TENHA CADASTRO AINDA, CRIAR CONTA.
             print(f"""
             {"-"*30}
             {"CONTA BANCÁRIA".center(30)}
@@ -59,7 +63,7 @@ while True:
             """)
             nome_usuario = str(input(f"{">".center(5)}"))
             conta = Banco(nome_usuario, 0)
-        else:
+        else: #CONTINUA CASO CONTA JA EXISTA
             limpar()
             print(f"""
             {"-"*30}
@@ -76,7 +80,7 @@ while True:
             if resposta.lower() in ("depositar" "1"):
                 limpar()
                 print("Insira valor para depositar.")
-                valor = int(input(f"{">".center(5)}"))
+                valor = float(input("> "))
                 conta.depositar(valor)
                 conta.salvar()
                 voltar()
@@ -89,7 +93,7 @@ while True:
                 if conta.saldo == 0:
                     voltar()
                 else:
-                    valor = int(input("> "))
+                    valor = float(input("> "))
                     conta.sacar(valor)
                     conta.salvar()
                     voltar()
@@ -101,6 +105,7 @@ while True:
                 voltar()
     #EXCEPT
     except ValueError:
+        limpar()
         print("Digite um valor válido.")
         voltar()
     continue
